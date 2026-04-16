@@ -11,7 +11,7 @@ import { URL } from "url";
  * Only call this if FAL_KEY is available
  */
 export function configureFalClient(): void {
-  const apiKey = process.env.FAL_KEY;
+  const apiKey = process.env.FAL_KEY || process.env.FAL_API_KEY;
 
   if (!apiKey) {
     throw new Error("FAL_KEY environment variable is not set.");
@@ -29,10 +29,10 @@ export async function falRequest<T>(
   url: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const apiKey = process.env.FAL_KEY;
+  const apiKey = process.env.FAL_KEY || process.env.FAL_API_KEY;
 
   if (!apiKey) {
-    throw new Error("FAL_KEY environment variable is not set");
+    throw new Error("FAL_KEY (or FAL_API_KEY) environment variable is not set");
   }
 
   const method = (options.method || "GET").toUpperCase();
